@@ -21,7 +21,17 @@ namespace Business.Concrete
         }
         public void Add(Car car)
         {
-            _carService.Add(car);
+            if (car.CarName.Length < 2)
+            {
+                Console.WriteLine("Araba ismi 2den büyük olmalıdır");
+            }else if (car.DailyPrice<=0)
+            {
+                Console.WriteLine("Araba Fiyatı 0dan büyük olmalıdır.");
+            }
+            else
+            {
+                _carService.Add(car);
+            }
         }
 
         public void Delete(Car car)
@@ -34,9 +44,14 @@ namespace Business.Concrete
             return _carService.GetAll();
         }
 
-        public List<Car> GetById(int carId)
+        public List<Car> GetCarsByBrandId(int brandId)
         {
-            return _carService.GetById(carId);
+            return _carService.GetAll(c => c.BrandId == brandId);
+        }
+
+        public List<Car> GetCarsByColorId(int colorId)
+        {
+            return _carService.GetAll(c => c.ColorId == colorId);
         }
 
         public void Update(Car car)
