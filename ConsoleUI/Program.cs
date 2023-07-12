@@ -8,7 +8,7 @@ public class Program
     public static void Main(string[] args)
     {
         CarManager car = new CarManager(new EfCarDal());
-        AddCarTest(car);
+        //AddCarTest(car);
 
         foreach (var c in car.GetAll())
         {
