@@ -15,7 +15,8 @@ public class Program
 
     private static void CarDetailsTest(CarManager car)
     {
-        foreach (var c in car.GetCarDetails())
+        var result = car.GetCarDetails();
+        foreach (var c in result.Data)
         {
             Console.WriteLine(c.ColorName + "  " + c.BrandName + "  " + c.CarId + "  " + c.ModelYear + "  " + c.CarName);
         }
