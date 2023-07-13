@@ -10,9 +10,14 @@ public class Program
         CarManager car = new CarManager(new EfCarDal());
         //AddCarTest(car);
 
-        foreach (var c in car.GetAll())
+        CarDetailsTest(car);
+    }
+
+    private static void CarDetailsTest(CarManager car)
+    {
+        foreach (var c in car.GetCarDetails())
         {
-            Console.WriteLine(c.CarName);
+            Console.WriteLine(c.ColorName + "  " + c.BrandName + "  " + c.CarId + "  " + c.ModelYear + "  " + c.CarName);
         }
     }
 
