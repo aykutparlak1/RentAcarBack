@@ -4,6 +4,7 @@ using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,34 +21,31 @@ namespace Business.Concrete
         {
             _rentalsService = rentalsDal;
         }
-        public IResult Add(Rentals rentals)
+        public IResult Add(Rental rentals)
         {
-            if (rentals.ReturnDate==null)
-            {
-                return new ErrorResult(Messages.ErrorAdd);
-            }
+
             _rentalsService.Add(rentals);
 
             return new SuccesResult(Messages.Added);
         }
 
-        public IResult Delete(Rentals rentals)
+        public IResult Delete(Rental rentals)
         {
             _rentalsService.Delete(rentals);
             return new SuccesResult(Messages.Deleted);
         }
 
-        public IDataResult<List<Rentals>> GetAll()
+        public IDataResult<List<Rental>> GetAll()
         {
-            return new SuccesDataResult<List<Rentals>>(_rentalsService.GetAll(),Messages.Listed);
+            return new SuccesDataResult<List<Rental>>(_rentalsService.GetAll(),Messages.Listed);
         }
 
-        public IDataResult<Rentals> GetById(int rentalsId)
+        public IDataResult<Rental> GetById(int rentalsId)
         {
-            return new SuccesDataResult<Rentals>(_rentalsService.Get(c => c.Id == rentalsId), Messages.Listed);
+            return new SuccesDataResult<Rental>(_rentalsService.Get(c => c.Id == rentalsId), Messages.Listed);
         }
 
-        public IResult Update(Rentals rentals)
+        public IResult Update(Rental rentals)
         {
             _rentalsService.Update(rentals);
 

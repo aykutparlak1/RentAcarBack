@@ -1,6 +1,5 @@
 ﻿using Business.Concrete;
 using DataAccess.Concrete.EntityFramework;
-using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 
 public class Program
@@ -14,8 +13,8 @@ public class Program
         //UserAddTest();
 
         RentalManager rentalManager = new RentalManager(new EfRentalsDal());
-        Rentals rentals = new Rentals {Id=0,CarId=0,CustomerId=1, RentDate=DateTime.Now ,ReturnDate=null};
-        Console.WriteLine(rentalManager.Add(rentals));
+        Rental rentals = new Rental {CarId=0,CustomerId=1, RentDate=DateTime.Now ,ReturnDate=null};
+        Console.WriteLine(rentalManager.Add(rentals).Message);
 
     }
 
@@ -28,7 +27,7 @@ public class Program
 
     private static void CarDetailsTest(CarManager car)
     {
-        var result = car.GetCarDetails();
+        var result = car.GetAllCarsDetails();
         foreach (var c in result.Data)
         {
             Console.WriteLine(c.ColorName + "  " + c.BrandName + "  " + c.CarId + "  " + c.ModelYear + "  " + c.CarName);

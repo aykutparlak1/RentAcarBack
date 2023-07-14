@@ -7,6 +7,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,9 +49,14 @@ namespace Business.Concrete
             return new SuccesDataResult<List<Car>>(_carService.GetAll(),Messages.ProductsListed);
         }
 
-        public IDataResult<List<CarDetailDto>> GetCarDetails()
+        public IDataResult<Car> GetById(int carId)
         {
-            return new SuccesDataResult<List<CarDetailDto>>(_carService.GetCarDetails(), Messages.ProductsListed);
+            return new SuccesDataResult<Car>(_carService.Get(c => c.Id == carId), Messages.ProductListed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetAllCarsDetails()
+        {
+            return new SuccesDataResult<List<CarDetailDto>>(_carService.GetAllCarsDetails(), Messages.ProductsListed);
         }
 
         public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
