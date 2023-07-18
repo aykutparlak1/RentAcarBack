@@ -12,7 +12,7 @@ public class Program
         //CarDetailsTest(car);
         //UserAddTest();
 
-        RentalManager rentalManager = new RentalManager(new EfRentalsDal());
+        RentalManager rentalManager = new RentalManager(new EfRentalDal());
         Rental rentals = new Rental {CarId=0,CustomerId=1, RentDate=DateTime.Now ,ReturnDate=null};
         Console.WriteLine(rentalManager.Add(rentals).Message);
 
