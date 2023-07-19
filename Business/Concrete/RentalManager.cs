@@ -45,10 +45,10 @@ namespace Business.Concrete
             return new SuccesDataResult<Rental>(_rentalsService.Get(c => c.Id == rentalsId), Messages.Listed);
         }
 
-        //public IDataResult<RentalsDetailDto> GetRentalsDetailById(int Id)
-        //{
-        //    return new SuccesDataResult<RentalsDetailDto>(_rentalsService.GetRentalsDetailById(Id),Messages.Listed);
-        //}
+        public IDataResult<List<RentalsDetailDto>> GetRentalsDetailById(int Id)
+        {
+            return new SuccesDataResult<List<RentalsDetailDto>>(_rentalsService.GetRentalsDetailById(Id), Messages.Listed);
+        }
 
         public IResult Update(Rental rentals)
         {
