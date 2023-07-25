@@ -21,8 +21,8 @@ public class Program
     private static void UserAddTest()
     {
         UserManager userManager = new UserManager(new EfUserDal());
-        User user = new User { CompanyId = 1, FirstName = "Aykut", LastName = "Parlak", Email = "test@test.com", Password = "212321" };
-        Console.WriteLine(userManager.Add(user).Message);
+        //User user = new User { CompanyId = 1, FirstName = "Aykut", LastName = "Parlak", Email = "test@test.com", Password = "212321" };
+       // Console.WriteLine(userManager.Add(user).Message);
     }
 
     private static void CarDetailsTest(CarManager car)
