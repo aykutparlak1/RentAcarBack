@@ -1,9 +1,4 @@
 ﻿using Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
@@ -15,5 +10,7 @@ namespace Entities.DTOs
         public string ModelYear { get; set; }
         public int DailyPrice{ get; set; }
         public string CustomerName { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

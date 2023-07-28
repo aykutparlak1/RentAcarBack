@@ -5,12 +5,7 @@ using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -26,13 +21,6 @@ namespace Business.Concrete
         }
         public IResult Add(Car car)
         {
-            if (car.CarName.Length < 2)
-            {
-                return new ErrorResult(Messages.ProductNameInvalid);
-            }else if (car.DailyPrice<=0)
-            {
-                return new ErrorResult(Messages.ProductDailyPriceInvalid);
-            }
             _carService.Add(car);
             return new SuccesResult(Messages.ProductAdded);
 
@@ -73,6 +61,21 @@ namespace Business.Concrete
         {
             _carService.Update(car);
             return new SuccesResult(Messages.ProductUpdated);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarsDetailsByColorId(int id)
+        {
+            return new SuccesDataResult<List<CarDetailDto>>(_carService.GetCarsDetailsByColorId(id),Messages.ProductListed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarsDetailsByBrandAndColorId(int brandId, int colorId)
+        {
+            return new SuccesDataResult<List<CarDetailDto>>(_carService.GetCarsDetailsByBrandAndColorId(brandId, colorId), Messages.ProductListed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarsDetailsByBrandId(int id)
+        {
+            return new SuccesDataResult<List<CarDetailDto>>(_carService.GetCarsDetailsByBrandId(id), Messages.ProductListed);
         }
     }
 }

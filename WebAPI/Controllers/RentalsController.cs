@@ -1,6 +1,5 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -21,9 +20,9 @@ namespace WebAPI.Controllers
             var result = _rentalService.GetAll();
             if (result.IsSuccess)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
@@ -31,9 +30,9 @@ namespace WebAPI.Controllers
             var result = _rentalService.GetById(id);
             if (result.IsSuccess)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
         [HttpGet("getrentalsdetailbyid")]
         public IActionResult GetRentalsDetailById(int id)
@@ -41,9 +40,9 @@ namespace WebAPI.Controllers
             var result = _rentalService.GetRentalsDetailById(id);
             if (result.IsSuccess)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
         [HttpPost("update")]
         public IActionResult Update(Rental rentals)
@@ -53,7 +52,7 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
         [HttpPost("add")]
         public IActionResult Add(Rental rentals)
@@ -63,7 +62,7 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
         [HttpPost("delete")]
         public IActionResult Delete(Rental rentals)
@@ -73,7 +72,7 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
 
 

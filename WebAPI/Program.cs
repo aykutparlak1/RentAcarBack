@@ -1,8 +1,5 @@
 using Autofac;
-using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
-using Business.Abstract;
-using Business.Concrete;
 using Business.DependencyResolvers.Autofac;
 using Core.DependencyResolvers;
 using Core.Utilities.IoC;
@@ -13,6 +10,8 @@ using Core.Utilities.Security.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors();
 
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -51,6 +50,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

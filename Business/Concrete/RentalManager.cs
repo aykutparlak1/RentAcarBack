@@ -1,15 +1,14 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Business.Concrete
 {
@@ -17,16 +16,29 @@ namespace Business.Concrete
     {
 
         IRentalDal _rentalsService;
-        public RentalManager(IRentalDal rentalsDal)
+        ICarService _carService;
+        public RentalManager(IRentalDal rentalsDal, ICarService carService)
         {
+            _carService = carService;
             _rentalsService = rentalsDal;
         }
+        [ValidationAspect(typeof(RentACarValidatör))]
         public IResult Add(Rental rentals)
         {
+            IResult result = BusinessRules.Run(CheckCarStatus(rentals));
+            if (result != null)
+            {
+                return result;
+            }
+            IDataResult<Car> carStatus = _carService.GetById(rentals.CarId);
+            if (carStatus.IsSuccess) {
+                carStatus.Data.IsActive = true;
+                _carService.Update(carStatus.Data);
+                _rentalsService.Add(rentals);
+                return new SuccesResult(Messages.Added);
+            }
 
-            _rentalsService.Add(rentals);
-
-            return new SuccesResult(Messages.Added);
+            return new ErrorResult(Messages.RentError);
         }
 
         public IResult Delete(Rental rentals)
@@ -55,6 +67,15 @@ namespace Business.Concrete
             _rentalsService.Update(rentals);
 
             return new SuccesResult(Messages.Updated);
+        }
+        private IResult CheckCarStatus(Rental rentals)
+        {
+            var result = _carService.GetById(rentals.CarId).Data.IsActive;
+            if (result)
+            {
+                return new ErrorResult(Messages.CarAlreadyRented);
+            }
+            return new SuccesResult();
         }
     }
 }
