@@ -57,7 +57,6 @@ namespace DataAccess.Concrete.EntityFramework
                              join brand in context.Brands on car.BrandId equals brand.BrandId
                              where car.ColorId == id
                              select new CarDetailDto { CarId = car.Id, CarName = car.CarName, BrandName = brand.BrandName, ColorName = color.ColorName, DailyPrice = car.DailyPrice, Description = car.Description, ModelYear = car.ModelYear };
-
                 return result.ToList();
             }
         }
