@@ -9,9 +9,9 @@ namespace Core.Extensions
 {
     public static class ExceptionMiddlewareExtensions
     {
-        public static void ConfigureCustomExceptionMiddleware(this IApplicationBuilder app)
+        public static IApplicationBuilder UseExceptionMiddleware(this IApplicationBuilder app)
         {
-            app.UseMiddleware<ExceptionMiddleware>();
+          return  app.UseMiddleware<ExceptionMiddleware>();
         }
     }
 }
