@@ -2,6 +2,6 @@
 {
     public class PathConstants
     {
-        public static string ImagesPath = "ImageRoot\\UploadedImages\\";
+        public static string ImagesPath = @"ImageRoot\UploadedImages\";
     }
 }

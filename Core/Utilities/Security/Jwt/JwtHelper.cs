@@ -24,7 +24,7 @@ namespace Core.Utilities.Security.Jwt
         {
             var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey); //security keyi symmetrickey byte dizisi olarak olusturyor
             var signinCredentials = SigningCredentialsHelper.CreateSigninCredentials(securityKey); // olusan security keyi hash256 algoritması ile haslıyor ve imza olusturuyor
-            var jwt = CreateJwtSecurityToken(_tokenOptions,user,signinCredentials, operationClaims); // 
+            var jwt = CreateJwtSecurityToken(_tokenOptions,user,signinCredentials, operationClaims); 
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             var token = jwtSecurityTokenHandler.WriteToken(jwt);
             return new AccessToken { Token = token, Expiration=_accessTokenExpiration};

@@ -11,7 +11,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
+
+builder.Services.AddControllers();
+
 builder.Services.AddCors();
+
+builder.Services.AddDependencyResolvers(new ICoreModule[] { new CoreModule() });
 
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -28,10 +35,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                         IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
                     };
                 });
-builder.Services.AddDependencyResolvers(new ICoreModule[] { new CoreModule() });
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
+
+
 
 //Adding autofac
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
@@ -41,7 +49,18 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     });
 
 builder.Services.AddEndpointsApiExplorer();
+
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSwaggerGen();
+
+
+
+
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,9 +69,19 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+app.UseRouting();// bu mw normalde default ekleniyor ama useCorsdan önce gelmesi lazým o yüzden biz ondan önce ekleyerek yerini belirtiyoruz
+
+
 app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
 
+
+
 app.UseHttpsRedirection();
+
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 

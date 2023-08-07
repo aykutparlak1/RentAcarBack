@@ -2,7 +2,7 @@
 
 namespace Core.Utilities.IoC
 {
-    public static class ServiceTool
+    public static class ServiceTool 
     {
         public static IServiceProvider? ServiceProvider { get; private set; }
 
