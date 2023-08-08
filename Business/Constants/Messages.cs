@@ -1,4 +1,6 @@
-﻿namespace Business.Constants
+﻿using Entities.Concrete;
+
+namespace Business.Constants
 {
     public class Messages
     {
@@ -11,16 +13,10 @@
         public static string ErrorAdd = " eklenemedi";
 
 
-        public static string ProductAdded = "Ürün Eklendi";
-        public static string ProductDeleted = "Ürün Silindi";
-        public static string ProductNameInvalid = "Ürün İsmi Geçersiz";
         public static string MaintenanceTime = "Sistem Bakımda.";
-        public static string ProductsListed = "Ürünler Listelendi";
-        public static string ProductListed = "Ürün Listelendi";
-        public static string ProductUpdated = "Ürün Güncellendi";
-        public static string ProductDailyPriceInvalid = "Ürün Günlük Fiyatı Geçersiz";
 
-
+        public static string BrandAlreadyExists = "Bu marka zaten mevcut";
+        public static string BrandNotFound = "Marka Bulunamadı.";
 
 
         public static string AuthorizationDenied = "Yetkiniz yetersiz.";
@@ -30,10 +26,29 @@
         public static string UserRegistered = "Kullanıcı başarıyla kaydedildi";
         public static string AccessTokenCreated = "Access token başarıyla oluşturuldu";
         public static string UserListed = "Kullanıcı listelendi";
-        public static string UserClaims = "Kullanıcı yetkileri getirildi";
+        public static string UserClaims = "Kullanıcı yetkileri Listelendi";
+        public static string UserNotFound = "Kullancı Bulunamadı";
 
+
+        public static string CarNotFound = "Araba Bulunamadı.";
         public static string CarAlreadyRented = "Araba zaten kirada.";
 
         public static string RentError ="Araba kiralanamadı";
+
+        public static string CarAlreadyExists = "Araba zaten var.";
+        public static string PlateNumberAlreadyExists= "Bu plakaya sahip bir araç zaten sistemde kayıtlı.";
+
+
+
+
+        public static string ColorNotFound="Renk Bulunamadı.";
+        public static string ColorAlreadyExists="Renk zaten var";
+        public static string CompanyNotFound= "Şirket bulunamadı";
+        public static string CompanyAlreadtExists = "Bu şirket zaten var.";
+
+        public static string RentalNotFound = "Kiralama Bulunamadı";
+
+
+        public static string CarNotReceived = "Araba Teslim Edilmedi";
     }
 }

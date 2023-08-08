@@ -9,6 +9,7 @@ namespace Entities.DTOs
         public string UserLastName { get; set; }
         public string UserEmail { get; set; }
         public string CarName { get; set; }
+        public string PlateNumber { get; set; }
         public string CompanyName { get; set; }
         public string CarDescription { get; set; }
         public string ModelYear { get; set; }

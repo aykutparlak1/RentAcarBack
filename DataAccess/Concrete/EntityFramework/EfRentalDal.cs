@@ -15,12 +15,15 @@ namespace DataAccess.Concrete.EntityFramework
                              where rental.Id == Id
                              join car in context.Cars on rental.CarId equals car.Id
                              join user in context.Users on rental.UserId equals user.Id
-                             join customer in context.Customers on  rental.CustomerId equals customer.Id
+                             join company in context.Companies on  rental.CompanyId equals company.Id
                              select new RentalsDetailDto {
                                  RentalId = rental.Id, IsActive = rental.IsActive,
                                  UserName =user.FirstName,UserEmail=user.Email, UserLastName=user.LastName,
-                                 CarName = car.CarName, CarDescription = car.Description, ModelYear = car.ModelYear, DailyPrice = car.DailyPrice,
-                                 CompanyName = customer.CompanyName,
+                                 CarName = car.CarName,
+                                 PlateNumber = car.PlateNumber,
+                                 CarDescription = car.Description, ModelYear = car.ModelYear,
+                                 DailyPrice = car.DailyPrice,
+                                 CompanyName = company.CompanyName,
                              };
 
                 return result.SingleOrDefault();

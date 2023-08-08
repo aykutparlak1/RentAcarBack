@@ -14,7 +14,7 @@ namespace DataAccess.Concrete.EntityFramework
                   var result = from car in context.Cars
                              join color in context.Colors on car.ColorId equals color.ColorId
                              join brand in context.Brands on car.BrandId equals brand.BrandId
-                             select new CarDetailDto { CarId = car.Id, CarName = car.CarName, BrandName = brand.BrandName, ColorName = color.ColorName, DailyPrice = car.DailyPrice, Description = car.Description, ModelYear = car.ModelYear };
+                             select new CarDetailDto { CarId = car.Id, CarName = car.CarName, PlateNumber=car.PlateNumber, BrandName = brand.BrandName, ColorName = color.ColorName, DailyPrice = car.DailyPrice, Description = car.Description, ModelYear = car.ModelYear };
 
                 return result.ToList();
             }
@@ -28,7 +28,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join color in context.Colors on car.ColorId equals color.ColorId
                              join brand in context.Brands on car.BrandId equals brand.BrandId
                              where car.BrandId == id
-                             select new CarDetailDto { CarId = car.Id, CarName = car.CarName, BrandName = brand.BrandName, ColorName = color.ColorName, DailyPrice = car.DailyPrice, Description = car.Description, ModelYear = car.ModelYear };
+                             select new CarDetailDto { CarId = car.Id, CarName = car.CarName, PlateNumber = car.PlateNumber, BrandName = brand.BrandName, ColorName = color.ColorName, DailyPrice = car.DailyPrice, Description = car.Description, ModelYear = car.ModelYear };
 
                 return result.ToList();
             }
@@ -42,7 +42,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join color in context.Colors on car.ColorId equals color.ColorId
                              join brand in context.Brands on car.BrandId equals brand.BrandId
                              where car.ColorId == colorId && car.BrandId == brandId
-                             select new CarDetailDto { CarId = car.Id, CarName = car.CarName, BrandName = brand.BrandName, ColorName = color.ColorName, DailyPrice = car.DailyPrice, Description = car.Description, ModelYear = car.ModelYear };
+                             select new CarDetailDto { CarId = car.Id, CarName = car.CarName, PlateNumber = car.PlateNumber, BrandName = brand.BrandName, ColorName = color.ColorName, DailyPrice = car.DailyPrice, Description = car.Description, ModelYear = car.ModelYear };
 
                 return result.ToList();
             }
@@ -56,7 +56,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join color in context.Colors on car.ColorId equals color.ColorId
                              join brand in context.Brands on car.BrandId equals brand.BrandId
                              where car.ColorId == id
-                             select new CarDetailDto { CarId = car.Id, CarName = car.CarName, BrandName = brand.BrandName, ColorName = color.ColorName, DailyPrice = car.DailyPrice, Description = car.Description, ModelYear = car.ModelYear };
+                             select new CarDetailDto { CarId = car.Id, CarName = car.CarName, PlateNumber = car.PlateNumber, BrandName = brand.BrandName, ColorName = color.ColorName, DailyPrice = car.DailyPrice, Description = car.Description, ModelYear = car.ModelYear };
                 return result.ToList();
             }
         }

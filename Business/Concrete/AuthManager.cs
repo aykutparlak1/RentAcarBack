@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Entities.Concrete;
 using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
@@ -30,18 +32,25 @@ namespace Business.Concrete
         }
 
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
-
         {
             var userToCheck = _userService.GetByEmail(userForLoginDto.Email);
-            BusinessRules.Run(VerifyEmail(userForLoginDto, userToCheck.IsSuccess),VerifyPassword(userForLoginDto, userToCheck.Data));
+            var result = BusinessRules.Run(VerifyEmail(userForLoginDto, userToCheck.IsSuccess),VerifyPassword(userForLoginDto, userToCheck.Data));
+            if (result!= null)
+            {
+                return new ErrorDataResult<User>(result.Message);
+            }
 
             return new SuccesDataResult<User>(userToCheck.Data, Messages.SuccessfulLogin);
         }
 
-
+        [ValidationAspect(typeof(RegisterValidator))]
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto)
         {
-            BusinessRules.Run(CheckUserExists(userForRegisterDto.Email));
+            var result = BusinessRules.Run(CheckUserExists(userForRegisterDto.Email));
+            if (result!= null)
+            {
+                return new ErrorDataResult<User>(result.Message);
+            }
             byte[] passwordHash;
             byte[] passwordSalt;
             HashingHelper.CreatePasswordHash(userForRegisterDto.Password, out passwordHash,out passwordSalt);
@@ -57,22 +66,22 @@ namespace Business.Concrete
             _userService.Add(user);
             return new SuccesDataResult<User>(user,Messages.UserRegistered);
         }
-        public IDataResult<User> VerifyEmail(UserForLoginDto userForLoginDto,bool userToCheck)
+        public IResult VerifyEmail(UserForLoginDto userForLoginDto,bool userToCheck)
         {
             if (userToCheck == false)
             {
-                return new ErrorDataResult<User>(Messages.UnSuccessfulLogin);
+                return new ErrorResult(Messages.UnSuccessfulLogin);
             }
-            return new SuccesDataResult<User>();
+            return new SuccesResult();
         }
-        public IDataResult<User> VerifyPassword(UserForLoginDto userForLoginDto, User user)
+        public IResult VerifyPassword(UserForLoginDto userForLoginDto, User user)
         {
 
             if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, user.PasswordHash, user.PasswordSalt))
             {
-                return new ErrorDataResult<User>(Messages.UnSuccessfulLogin);
+                return new ErrorResult(Messages.UnSuccessfulLogin);
             }
-            return new SuccesDataResult<User>();
+            return new SuccesResult();
         }
 
         public IResult CheckUserExists(string email)

@@ -20,10 +20,10 @@ namespace Business.Concrete
             _carImageDal = carImageDal;
             _fileHelper = fileHelper;
         }
-        [SecuredOperation("CarImage.Add")]
+        //[SecuredOperation("CarImage.Add")]
         public IResult Add(IFormFile file, CarImage carImage)
         {
-            IResult result = BusinessRules.Run(CheckIfCarImageLimit(carImage.CarId));
+            var result = BusinessRules.Run(CheckIfCarImageLimit(carImage.CarId));
             if (result != null)
             {
                 return result;
