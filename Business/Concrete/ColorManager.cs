@@ -50,7 +50,6 @@ namespace Business.Concrete
 
             return new SuccesResult(Messages.Updated);
         }
-
         public IDataResult<List<Color>> GetAll()
         {
             var result = _colorDal.GetAll();

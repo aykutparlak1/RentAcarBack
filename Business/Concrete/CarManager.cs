@@ -12,12 +12,13 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
 
-
+        ICarImageService _carImageService;
         ICarDal _carDal;
 
-        public CarManager(ICarDal carDal)
+        public CarManager(ICarDal carDal, ICarImageService carImageService)
         {
             _carDal = carDal;
+            _carImageService = carImageService;
         }
         public IResult Add(Car car)
         {
@@ -26,6 +27,7 @@ namespace Business.Concrete
             {
                 return result;
             }
+            //_carImageService.SetDefaultImage(car.Id);
             _carDal.Add(car);
             return new SuccesResult(Messages.Added);
 
