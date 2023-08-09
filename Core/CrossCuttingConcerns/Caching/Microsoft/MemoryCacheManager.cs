@@ -52,6 +52,7 @@ namespace Core.CrossCuttingConcerns.Caching.Microsoft
         public void RemoveByPattern(string pattern)
         {
             var cacheEntriesCollectionDefinition = typeof(MemoryCache).GetProperty("EntriesCollection", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if(cacheEntriesCollectionDefinition != null) { 
             var cacheEntriesCollection = cacheEntriesCollectionDefinition.GetValue(_memoryCache) as dynamic;
             List<ICacheEntry> cacheCollectionValues = new List<ICacheEntry>();
 
@@ -67,6 +68,7 @@ namespace Core.CrossCuttingConcerns.Caching.Microsoft
             foreach (var key in keysToRemove)
             {
                 _memoryCache.Remove(key);
+            }
             }
         }
     }

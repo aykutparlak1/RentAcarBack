@@ -1,5 +1,10 @@
-﻿using Business.Abstract;
+﻿using Business.AbstractValidator;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Cache;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
@@ -18,6 +23,9 @@ namespace Business.Concrete
             _companyDal = companyDal;
         }
 
+        [SecuredOperation("Company.Add")]
+        [ValidationAspect(typeof(CompanyValidator))]
+        [CacheRemoveAspect("ICompanyService.Get")]
         public IResult Add(Company company)
         {
             var result = BusinessRules.Run(CheckCompanyAlreadyExists(company.CompanyName));
@@ -30,6 +38,9 @@ namespace Business.Concrete
             return new SuccesResult(Messages.Added);
         }
 
+        [SecuredOperation("Company.Update")]
+        [ValidationAspect(typeof(CompanyValidator))]
+        [CacheRemoveAspect("ICompanyService.Get")]
         public IResult Update(Company company)
         {
             var result = BusinessRules.Run(IfCompanyExists(company.Id));
@@ -42,6 +53,8 @@ namespace Business.Concrete
             return new SuccesResult(Messages.Updated);
         }
 
+        [SecuredOperation("Company.Delete")]
+        [CacheRemoveAspect("ICompanyService.Get")]
         public IResult Delete(Company company)
         {
             var result = BusinessRules.Run(IfCompanyExists(company.Id));
@@ -53,6 +66,8 @@ namespace Business.Concrete
             return new SuccesResult(Messages.Added);
         }
 
+        [CacheAspect]
+
         public IDataResult<List<Company>> GetAll()
         {
             var result = _companyDal.GetAll();
@@ -62,7 +77,7 @@ namespace Business.Concrete
             }
             return new SuccesDataResult<List<Company>>(result, Messages.Listed);
         }
-
+        [CacheAspect]
         public IDataResult<Company> GetById(int companyId)
         {
             var result = _companyDal.Get(c => c.Id == companyId);
@@ -72,6 +87,8 @@ namespace Business.Concrete
             }
             return new SuccesDataResult<Company>(result, Messages.Listed);
         }
+
+        [CacheAspect]
         public IDataResult<Company> GetByName(string companyName)
         {
             var result = _companyDal.Get(c => c.CompanyName == companyName);

@@ -1,13 +1,15 @@
 ﻿using Azure;
-using Business.Abstract;
+using Business.AbstractValidator;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Cache;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
 
@@ -23,21 +25,26 @@ namespace Business.Concrete
             _carService = carService;
             _rentalsDal = rentalsDal;
         }
+        [SecuredOperation("Rental.Add")]
         [ValidationAspect(typeof(RentACarValidator))]
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Add(Rental rentals)
         {
+
             var result = BusinessRules.Run(CheckCarExist(rentals),CheckCarStatus(rentals));
             if (result != null)
             {
                 return result;
             }
-            IDataResult<Car> carStatus = _carService.GetById(rentals.CarId);
+            var carStatus = _carService.GetById(rentals.CarId);
                 carStatus.Data.IsActive = true;
                 _carService.Update(carStatus.Data);
                 _rentalsDal.Add(rentals);
                 return new SuccesResult(Messages.Added);
         }
 
+        [SecuredOperation("Rental.Delete")]
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Delete(Rental rentals)
         {
             var result = BusinessRules.Run(CheckRentalExists(rentals.Id), IfCarReceived(rentals.CarId));
@@ -49,6 +56,8 @@ namespace Business.Concrete
             return new SuccesResult(Messages.Deleted);
         }
 
+        [SecuredOperation("Rental.Udpate")]
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Update(Rental rentals)
         {
 
@@ -61,7 +70,7 @@ namespace Business.Concrete
 
             return new SuccesResult(Messages.Updated);
         }
-
+        [CacheAspect]
         public IDataResult<List<Rental>> GetAll()
         {
             var result = _rentalsDal.GetAll();
@@ -71,7 +80,7 @@ namespace Business.Concrete
             }
             return new SuccesDataResult<List<Rental>>(_rentalsDal.GetAll(),Messages.Listed);
         }
-
+        [CacheAspect]
         public IDataResult<Rental> GetById(int rentalsId)
         {
             var result = _rentalsDal.Get(c => c.Id == rentalsId);
@@ -81,10 +90,10 @@ namespace Business.Concrete
             }
             return new SuccesDataResult<Rental>(result, Messages.Listed);
         }
-
-        public IDataResult<RentalsDetailDto> GetRentalsDetailById(int Id)
+        [CacheAspect]
+        public IDataResult<RentalsDetailDto> GetRentalsDetailById(int id)
         {
-            var result = _rentalsDal.GetRentalsDetailById(Id);
+            var result = _rentalsDal.GetRentalsDetailById(id);
             if (result == null)
             {
                 return new ErrorDataResult<RentalsDetailDto>(Messages.RentalNotFound);

@@ -2,7 +2,7 @@
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 
-namespace Business.Abstract
+namespace Business.AbstractValidator
 {
     public interface ICarImageService
     {

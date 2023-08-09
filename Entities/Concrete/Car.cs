@@ -11,7 +11,7 @@ namespace Entities.Concrete
         public string PlateNumber { get; set; }
         public string CarName { get; set; }
 
-        public string ModelYear { get; set; }
+        public int ModelYear { get; set; }
 
         public int DailyPrice { get; set; }
 

@@ -1,4 +1,4 @@
-﻿using Business.Abstract;
+﻿using Business.AbstractValidator;
 using Core.Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 

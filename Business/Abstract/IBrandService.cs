@@ -1,7 +1,7 @@
 ﻿using Core.Utilities.Results.Abstract;
 using Entities.Concrete;
 
-namespace Business.Abstract
+namespace Business.AbstractValidator
 {
     public interface IBrandService
     {

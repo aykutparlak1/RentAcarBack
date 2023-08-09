@@ -3,7 +3,7 @@ using Core.Utilities.Results.Abstract;
 using Core.Utilities.Security.Jwt;
 using Entities.DTOs;
 
-namespace Business.Abstract
+namespace Business.AbstractValidator
 {
     public interface IAuthService
     {

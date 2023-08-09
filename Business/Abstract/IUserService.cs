@@ -1,7 +1,7 @@
 ﻿using Core.Entities.Concrete;
 using Core.Utilities.Results.Abstract;
 
-namespace Business.Abstract
+namespace Business.AbstractValidator
 {
     public interface IUserService
     {

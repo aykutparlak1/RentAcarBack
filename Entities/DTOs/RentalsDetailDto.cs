@@ -12,7 +12,7 @@ namespace Entities.DTOs
         public string PlateNumber { get; set; }
         public string CompanyName { get; set; }
         public string CarDescription { get; set; }
-        public string ModelYear { get; set; }
+        public int ModelYear { get; set; }
         public int DailyPrice{ get; set; }
         public bool IsActive { get; set; }
     }

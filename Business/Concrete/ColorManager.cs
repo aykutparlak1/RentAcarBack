@@ -1,5 +1,10 @@
-﻿using Business.Abstract;
+﻿using Business.AbstractValidator;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Cache;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
@@ -17,6 +22,10 @@ namespace Business.Concrete
         {
             _colorDal = colorDal;
         }
+
+        [SecuredOperation("Color.Add")]
+        [ValidationAspect(typeof(ColorValidator))]
+        [CacheRemoveAspect("IColorService.Get")]
         public IResult Add(Color color)
         {
             var result = BusinessRules.Run(CheckColorAlreadyExists(color.ColorName));
@@ -29,6 +38,8 @@ namespace Business.Concrete
             return new SuccesResult(Messages.Added);
         }
 
+        [SecuredOperation("Color.Delete")]
+        [CacheRemoveAspect("IColorService.Get")]
         public IResult Delete(Color color)
         {
             var result = BusinessRules.Run(IfColorExists(color.ColorId));
@@ -39,6 +50,10 @@ namespace Business.Concrete
             _colorDal.Delete(color);
             return new SuccesResult(Messages.Added);
         }
+
+        [SecuredOperation("Color.Update")]
+        [ValidationAspect(typeof(ColorValidator))]
+        [CacheRemoveAspect("IColorService.Get")]
         public IResult Update(Color color)
         {
             var result = BusinessRules.Run(IfColorExists(color.ColorId));
@@ -50,6 +65,7 @@ namespace Business.Concrete
 
             return new SuccesResult(Messages.Updated);
         }
+        [CacheAspect]
         public IDataResult<List<Color>> GetAll()
         {
             var result = _colorDal.GetAll();
@@ -59,7 +75,7 @@ namespace Business.Concrete
             }
             return new SuccesDataResult<List<Color>>(result, Messages.Listed);
         }
-
+        [CacheAspect]
         public IDataResult<Color> GetById(int colorId)
         {
             var result = _colorDal.Get(b => b.ColorId == colorId);
@@ -69,7 +85,7 @@ namespace Business.Concrete
             }
             return new SuccesDataResult<Color>(result, Messages.Listed);
         }
-
+        [CacheAspect]
         public IDataResult<Color> GetByName(string colorName)
         {
             var result = _colorDal.Get(b => b.ColorName == colorName);

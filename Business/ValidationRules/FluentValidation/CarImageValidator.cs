@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Castle.Components.DictionaryAdapter.Xml;
+using Entities.Concrete;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace Business.ValidationRules.FluentValidation
     {
         public CarImageValidator() 
         {
+            
+            
             RuleFor(c => c.CarId).NotEmpty().WithMessage("Hangi Arabaya ait olduğunu belirtiniz.");
             //RuleFor(c => c.ImagePath).NotEmpty();
         }

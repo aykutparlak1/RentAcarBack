@@ -1,5 +1,8 @@
-﻿using Business.Abstract;
+﻿using Business.AbstractValidator;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
+using Core.Aspects.Autofac.Cache;
+using Core.Aspects.Autofac.Caching;
 using Core.Entities.Concrete;
 using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
@@ -18,6 +21,7 @@ namespace Business.Concrete
         {
                 _userDal = userDal;
         }
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult Add(User user)
         {
             
@@ -31,7 +35,8 @@ namespace Business.Concrete
 
             return new SuccesResult(Messages.Added);
         }
-
+        [SecuredOperation("User.Delete")]
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult Delete(User user)
         {
 
@@ -43,6 +48,8 @@ namespace Business.Concrete
             _userDal.Delete(user);
             return new SuccesResult(Messages.Deleted);
         }
+        [SecuredOperation("User.Update")]
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult Update(User user)
         {
             var result = BusinessRules.Run(IfUserExists(user.Id));
@@ -54,6 +61,8 @@ namespace Business.Concrete
 
             return new SuccesResult(Messages.Updated);
         }
+
+        [CacheAspect]
         public IDataResult<List<User>> GetAll()
         {
             var result = _userDal.GetAll();
@@ -63,7 +72,7 @@ namespace Business.Concrete
             }
             return new SuccesDataResult<List<User>>(result, Messages.Listed);
         }
-
+        [CacheAspect]
         public IDataResult<User> GetById(int userId)
         {
             var result = _userDal.Get(u => u.Id == userId);
@@ -73,6 +82,7 @@ namespace Business.Concrete
             }
             return new SuccesDataResult<User>(_userDal.Get(c => c.Id == userId), Messages.Listed);
         }
+        [CacheAspect]
         public IDataResult<User> GetByEmail(string email)
         {
             var result = _userDal.Get(u => u.Email == email);
@@ -83,7 +93,7 @@ namespace Business.Concrete
 
             return new SuccesDataResult<User>(result,Messages.UserListed);
         }
-
+        [CacheAspect]
         public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
             return new SuccesDataResult<List<OperationClaim>>(_userDal.GetClaims(user));

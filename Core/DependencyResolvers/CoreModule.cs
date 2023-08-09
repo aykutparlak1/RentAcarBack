@@ -11,10 +11,12 @@ namespace Core.DependencyResolvers
     {
         public void Load(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddMemoryCache();//MemoryCache otamatik injectionuu ctor gerek yok
+            serviceCollection.AddMemoryCache(); // asp.net core icin AddMemoryCache dediğimiz zaman MemoryCacheManagerda ctorumuzdaki IMemoryCache icin injectionumuzu yapıyor
+
+
+            serviceCollection.AddSingleton<ICacheManager, MemoryCacheManager>();//MemoryCache otamatik injectionuu ctor gerek yok
             //sadece microsoft icin
             serviceCollection.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            serviceCollection.AddSingleton<ICacheManager, MemoryCacheManager>();
             serviceCollection.AddSingleton<Stopwatch>();
         }
     }
