@@ -4,6 +4,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Cache;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
@@ -26,6 +27,7 @@ namespace Business.Concrete
         [SecuredOperation("Company.Add")]
         [ValidationAspect(typeof(CompanyValidator))]
         [CacheRemoveAspect("ICompanyService.Get")]
+        [TransactionScopeAspect]
         public IResult Add(Company company)
         {
             var result = BusinessRules.Run(CheckCompanyAlreadyExists(company.CompanyName));
@@ -41,6 +43,7 @@ namespace Business.Concrete
         [SecuredOperation("Company.Update")]
         [ValidationAspect(typeof(CompanyValidator))]
         [CacheRemoveAspect("ICompanyService.Get")]
+        [TransactionScopeAspect]
         public IResult Update(Company company)
         {
             var result = BusinessRules.Run(IfCompanyExists(company.Id));
@@ -55,6 +58,7 @@ namespace Business.Concrete
 
         [SecuredOperation("Company.Delete")]
         [CacheRemoveAspect("ICompanyService.Get")]
+        [TransactionScopeAspect]
         public IResult Delete(Company company)
         {
             var result = BusinessRules.Run(IfCompanyExists(company.Id));

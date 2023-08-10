@@ -4,6 +4,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Cache;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
@@ -30,6 +31,7 @@ namespace Business.Concrete
         [SecuredOperation("Car.Add")]
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("ICarService.Get")]
+        [TransactionScopeAspect]
         public IResult Add(Car car)
         {
             IResult result = BusinessRules.Run(CheckPlateNumber(car.PlateNumber));
@@ -37,13 +39,13 @@ namespace Business.Concrete
             {
                 return result;
             }
-            //_carImageService.SetDefaultImage(car.Id);
             _carDal.Add(car);
             return new SuccesResult(Messages.Added);
 
         }
         [SecuredOperation("Car.Delete")]
         [CacheRemoveAspect("ICarService.Get")]
+        [TransactionScopeAspect]
         public IResult Delete(Car car)
         {
             var result = BusinessRules.Run(IfCarExists(car.Id));
@@ -58,6 +60,7 @@ namespace Business.Concrete
         [SecuredOperation("Car.Update")]
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("ICarService.Get")]
+        [TransactionScopeAspect]
         public IResult Update(Car car)
         {
             var result = BusinessRules.Run(IfCarExists(car.Id));

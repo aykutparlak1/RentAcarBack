@@ -3,6 +3,7 @@ using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Core.Aspects.Autofac.Cache;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Entities.Concrete;
 using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
@@ -22,6 +23,7 @@ namespace Business.Concrete
                 _userDal = userDal;
         }
         [CacheRemoveAspect("IUserService.Get")]
+        [TransactionScopeAspect]
         public IResult Add(User user)
         {
             
@@ -37,6 +39,7 @@ namespace Business.Concrete
         }
         [SecuredOperation("User.Delete")]
         [CacheRemoveAspect("IUserService.Get")]
+        [TransactionScopeAspect]
         public IResult Delete(User user)
         {
 
@@ -50,6 +53,7 @@ namespace Business.Concrete
         }
         [SecuredOperation("User.Update")]
         [CacheRemoveAspect("IUserService.Get")]
+        [TransactionScopeAspect]
         public IResult Update(User user)
         {
             var result = BusinessRules.Run(IfUserExists(user.Id));

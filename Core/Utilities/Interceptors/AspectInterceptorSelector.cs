@@ -13,7 +13,7 @@ namespace Core.Utilities.Interceptors
                 .GetCustomAttributes<MethodInterceptionBaseAttribute>(true);
             classAttributes.AddRange(methodAttributes);
             //classAttributes.Add(new ExceptionLogAspect(typeof(FileLogger)));
-            //üsteki kod bütün metotları loglamaya yarıyor ama altyapımız yok
+            //üsteki kod bütün metotları loglamaya yarıyor ama altyapı yok
 
             return classAttributes.OrderBy(x => x.Priority).ToArray();
         }

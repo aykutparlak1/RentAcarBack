@@ -4,6 +4,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Cache;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
@@ -26,6 +27,7 @@ namespace Business.Concrete
         [SecuredOperation("Color.Add")]
         [ValidationAspect(typeof(ColorValidator))]
         [CacheRemoveAspect("IColorService.Get")]
+        [TransactionScopeAspect]
         public IResult Add(Color color)
         {
             var result = BusinessRules.Run(CheckColorAlreadyExists(color.ColorName));
@@ -40,6 +42,7 @@ namespace Business.Concrete
 
         [SecuredOperation("Color.Delete")]
         [CacheRemoveAspect("IColorService.Get")]
+        [TransactionScopeAspect]
         public IResult Delete(Color color)
         {
             var result = BusinessRules.Run(IfColorExists(color.ColorId));
@@ -54,6 +57,7 @@ namespace Business.Concrete
         [SecuredOperation("Color.Update")]
         [ValidationAspect(typeof(ColorValidator))]
         [CacheRemoveAspect("IColorService.Get")]
+        [TransactionScopeAspect]
         public IResult Update(Color color)
         {
             var result = BusinessRules.Run(IfColorExists(color.ColorId));

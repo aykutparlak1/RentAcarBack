@@ -5,6 +5,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Cache;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
@@ -28,6 +29,7 @@ namespace Business.Concrete
         [SecuredOperation("Rental.Add")]
         [ValidationAspect(typeof(RentACarValidator))]
         [CacheRemoveAspect("IRentalService.Get")]
+        [TransactionScopeAspect]
         public IResult Add(Rental rentals)
         {
 
@@ -45,6 +47,7 @@ namespace Business.Concrete
 
         [SecuredOperation("Rental.Delete")]
         [CacheRemoveAspect("IRentalService.Get")]
+        [TransactionScopeAspect]
         public IResult Delete(Rental rentals)
         {
             var result = BusinessRules.Run(CheckRentalExists(rentals.Id), IfCarReceived(rentals.CarId));
@@ -58,6 +61,7 @@ namespace Business.Concrete
 
         [SecuredOperation("Rental.Udpate")]
         [CacheRemoveAspect("IRentalService.Get")]
+        [TransactionScopeAspect]
         public IResult Update(Rental rentals)
         {
 

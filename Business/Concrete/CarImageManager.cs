@@ -4,6 +4,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Cache;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Helpers.FileHelper;
@@ -27,6 +28,7 @@ namespace Business.Concrete
         [SecuredOperation("CarImage.Add")]
         [ValidationAspect(typeof(CarImageValidator))]
         [CacheRemoveAspect("ICarImageService.Get")]
+        [TransactionScopeAspect]
         public IResult Add(IFormFile file, CarImage carImage)
         {
             var result = BusinessRules.Run(CheckIfCarImageLimit(carImage.CarId));
@@ -43,6 +45,7 @@ namespace Business.Concrete
 
         [SecuredOperation("CarImage.Delete")]
         [CacheRemoveAspect("ICarImageService.Get")]
+        [TransactionScopeAspect]
         public IResult Delete(CarImage carImage)
         {
             _fileHelper.Delete(PathConstants.ImagesPath + carImage.ImagePath);
@@ -55,7 +58,8 @@ namespace Business.Concrete
         [SecuredOperation("CarImage.Update")]
         [ValidationAspect(typeof(CarImageValidator))]
         [CacheRemoveAspect("ICarImageService.Get")]
-        
+        [TransactionScopeAspect]
+
         public IResult Update(IFormFile file, CarImage carImage)
         {
             carImage.ImagePath = _fileHelper.Update(file, PathConstants.ImagesPath + carImage.ImagePath, PathConstants.ImagesPath);

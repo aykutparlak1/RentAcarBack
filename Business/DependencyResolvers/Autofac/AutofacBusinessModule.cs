@@ -33,12 +33,21 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<AuthManager>().As<IAuthService>().SingleInstance();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>().SingleInstance();
 
-            var assembly = System.Reflection.Assembly.GetExecutingAssembly();// calısan uygulama icerisinde
 
-            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()//impelement edilmiş interfacelere
+
+
+
+
+
+            //Alt satırdaki kod autofac kutuphanesi sayesinde execute edildikten sonra
+            //yani build edilip calısmaya baslayınca referansından cagrılan metotun
+            //Interceptor secimi AspectInterceptorSelector sınıfı ile gercekleştir.
+
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
                 .EnableInterfaceInterceptors(new ProxyGenerationOptions()
                 {
-                    Selector = new AspectInterceptorSelector() // onlar icin aspectIntercceptorselector cagır
+                    Selector = new AspectInterceptorSelector() 
                 }).SingleInstance();
 
         }

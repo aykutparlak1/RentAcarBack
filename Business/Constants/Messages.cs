@@ -2,7 +2,7 @@
 
 namespace Business.Constants
 {
-    public class Messages
+    public static class Messages
     {
 
 
